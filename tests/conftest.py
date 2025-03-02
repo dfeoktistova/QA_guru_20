@@ -2,8 +2,11 @@ import pytest
 from appium import webdriver
 from dotenv import load_dotenv
 from selene import browser
-
 import config
+from utils import attach
+import os
+import allure
+from allure_commons.types import AttachmentType
 
 
 def pytest_addoption(parser):
@@ -17,9 +20,6 @@ def pytest_addoption(parser):
 def pytest_configure(config):
     context = config.getoption("--context")
     env_file_path = f".env.{context}"
-
-    print(f'env_file_path = {env_file_path}')
-
     load_dotenv(dotenv_path=env_file_path)
 
     return env_file_path
@@ -37,6 +37,13 @@ def mobile_management(context):
     browser.config.driver = webdriver.Remote(options.get_capability('remote_url'), options=options)
     browser.config.timeout = 10.0
 
+    allure.attach(browser.driver.get_screenshot_as_png(), name='screenshot', attachment_type=AttachmentType.PNG)
+    allure.attach(browser.driver.page_source, name='xml_dump', attachment_type=AttachmentType.XML)
+    session_id = browser.driver.session_id
+
     yield
+
+    if context == 'bstack':
+        attach.add_video(session_id, os.getenv('USER_NAME'), os.getenv('ACCESS_KEY'))
 
     browser.quit()

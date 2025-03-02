@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 from appium.options.android import UiAutomator2Options
-
 from utils.file import relative_from_root
 
 
