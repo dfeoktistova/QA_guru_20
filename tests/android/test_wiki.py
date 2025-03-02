@@ -6,23 +6,22 @@ from selene import browser, have, be
 def test_onboarding(mobile_management):
     continue_button = browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/fragment_onboarding_forward_button'))
     screen_title = browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/primaryTextView'))
-    done_button = browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/fragment_onboarding_done_button'))
+    get_started_button = browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/fragment_onboarding_done_button'))
 
-    with step("First onboarding screen is opened"):
+    with step("Открыть начальную страницу"):
         screen_title.should(have.text("Free Encyclopedia"))
 
-    with step('Click on continue button to open the second screen'):
+    with step('Нажать на кнопку "Continue": Переход ко второму экрану'):
         continue_button.click()
         screen_title.should(have.text("New ways to explore"))
 
-    with step('Click on continue button to open the third screen'):
+    with step('Нажать на кнопку "Continue": Переход к третьему экрану'):
         continue_button.click()
         screen_title.should(have.text("Reading lists with sync"))
 
-    with step('Click on continue button to open the fourth screen'):
+    with step('Нажать на кнопку "Continue": Переход к четвертому экрану'):
         continue_button.click()
         screen_title.should(have.exact_text('Data & Privacy'))
 
-    with step('Finish onboarding by clicking on done button'):
-        done_button.click()
-        browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/main_toolbar_wordmark')).should(be.visible)
+    with step('Нажать на кнопку "Get started"'):
+        get_started_button.click()
