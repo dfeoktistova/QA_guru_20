@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-def relative_from_root(path):
+def get_path(path):
     return (
         Path(__file__)
         .parent.parent.joinpath(path)
